@@ -1,0 +1,45 @@
+version: "3.4"
+
+services:
+    mysql_db:
+        image: mysql/mysql-server:8.0-aarch64
+        volumes:
+            - mysql_db_data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=db
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=pass
+        ports:
+            - "3399:3306"
+
+    api_php:
+        build:
+            context: ./
+            target: api_php
+        depends_on:
+            - mysql_db
+        restart: unless-stopped
+        volumes:
+            - php_socket:/var/run/php
+            - ./:/srv/api
+            - ./docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
+            - ./var:/srv/api/var
+
+    api_nginx:
+        build:
+            context: ./
+            target: api_nginx
+        volumes:
+            - php_socket:/var/run/php
+            - ./:/srv/api
+            - ./docker/logs:/var/log
+        depends_on:
+            - api_php
+        ports:
+            - "999:80"
+            - "4499:443"
+
+volumes:
+    mysql_db_data:
+    php_socket:
