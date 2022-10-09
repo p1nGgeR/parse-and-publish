@@ -19,6 +19,9 @@ class Source
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
+    #[ORM\Column(nullable: false, options: ["default" => 0])]
+    private bool $enabled = false;
+
     #[ORM\Column(length: 50, nullable: false)]
     private string $articleListSelector = "";
 
@@ -42,9 +45,6 @@ class Source
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cookieValue = null;
-
-    #[ORM\Column(nullable: false, options: ["default" => 0])]
-    private bool $enabled = false;
 
     public function __toString(): string
     {
@@ -76,6 +76,18 @@ class Source
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }
@@ -172,18 +184,6 @@ class Source
     public function setCookieValue(string $cookieValue): self
     {
         $this->cookieValue = $cookieValue;
-
-        return $this;
-    }
-
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
 
         return $this;
     }

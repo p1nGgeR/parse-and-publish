@@ -107,7 +107,7 @@ class Article
         return $this->imageUrl;
     }
 
-    public function setImageUrl(string $imageUrl): self
+    public function setImageUrl(?string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
 

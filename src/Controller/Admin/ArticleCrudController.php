@@ -26,6 +26,7 @@ class ArticleCrudController extends AbstractCrudController
     {
         return [
             TextField::new('title'),
+            TextField::new('url'),
             Field::new('parsedAt'),
         ];
     }

@@ -33,7 +33,7 @@ class ArticleCreator
         $article->setSource($source);
         $article->setUrl($articleDto->url);
         $article->setTitle($articleDto->title);
-        $article->setDescription($articleDto->description);
+        $article->setDescription($articleDto->description ?: "");
         $article->setImageUrl($articleDto->imageUrl);
 
         $this->em->persist($article);
